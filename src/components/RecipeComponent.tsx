@@ -10,6 +10,11 @@ export interface RecipeComponentProps {
 interface RecipeComponentParams extends RecipeComponentProps {}
 
 class RecipeComponent extends React.Component<RecipeComponentParams, object> {
+	constructor(props: RecipeComponentParams) {
+		super(props);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
 	render() {
 		const { isLoading, recipes } = this.props;
 
@@ -22,8 +27,14 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 				<select>
 					{recipes.map((r) => <option key={r.id}>{r.name}</option>)}
 				</select>
+				<button type="button" onClick={this.handleSubmit}>Bake!</button>
 			</div>
 		);
+	}
+
+	handleSubmit(event: any) {
+		// alert('Event!');
+		console.log(JSON.stringify(event));
 	}
 }
 
