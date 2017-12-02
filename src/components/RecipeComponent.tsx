@@ -1,6 +1,7 @@
 import { Recipe } from '../models/Recipe';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { StoreState } from '../reducers';
 
 export interface RecipeComponentProps {
 	recipes: Recipe[];
@@ -38,11 +39,11 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 	}
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: StoreState): RecipeComponentProps {
 	// console.log(JSON.stringify(state));
 	return {
-		recipes: state.recipes,
-		isLoading: state.isLoading,
+		recipes: state.recipes.recipes,
+		isLoading: state.recipes.isLoading,
 	};
 }
 
