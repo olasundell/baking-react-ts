@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { StoreState } from '../reducers';
 import { Ingredient } from '../models/Ingredient';
+import ReactTable from 'react-table';
 
 export interface IngredientListComponentProps {
 	isLoading: boolean;
@@ -15,9 +16,18 @@ class IngredientListComponent extends React.Component<IngredientListComponentPro
 		if (isLoading) {
 			return (<h2>Loading</h2>);
 		}
-		return <ul className="list-group">
-			{ingredients.map((ing, i) => <li key={i}>{ing.name} {ing.amount} {ing.unit}</li>)}
-		</ul>;
+
+		const columns = {
+			
+		};
+
+		return   <ReactTable
+			data={ingredients}
+			columns={columns}
+		/>;
+		// return <ul className="list-group">
+		// 	{ingredients.map((ing, i) => <li key={i}>{ing.name} {ing.amount} {ing.unit}</li>)}
+		// </ul>;
 	}
 }
 
