@@ -1,10 +1,17 @@
 import { Recipe } from '../models/Recipe';
 import { StoreState } from '../reducers';
 import { Dispatch } from 'redux';
+import { Ingredient } from '../models/Ingredient';
 
 export enum ActionTypeKeys {
 	REQUEST_RECIPES = 'REQUEST_RECIPES',
-	RECEIVE_RECIPES = 'RECEIVE_RECIPES'
+	RECEIVE_RECIPES = 'RECEIVE_RECIPES',
+	ADD_RECIPE = 'ADD_RECIPE',
+
+	REQUEST_INGREDIENTS = 'REQUEST_INGREDIENTS',
+	RECEIVE_INGREDIENTS = 'RECEIVE_INGREDIENTS',
+	ADD_INGREDIENT = 'ADD_INGREDIENT',
+
 }
 
 class RequestRecipes {
@@ -16,21 +23,16 @@ class ReceiveRecipes {
 	constructor(public payload: Recipe[]) {}
 }
 
-export type Action = RequestRecipes | ReceiveRecipes;
+class RequestIngredients {
+	readonly type = ActionTypeKeys.REQUEST_INGREDIENTS;
+}
 
-// export const actionCreators = {
-// 	requestRecipes: createActionCreator(ActionTypeKeys.REQUEST_RECIPES),
-// 	receiveRecipes: createActionCreator(ActionTypeKeys.RECEIVE_RECIPES, (state: Recipe[]) => {
-// 		return state;
-// 	})
-// };
-//
-// type S<T> = { response: T };
-//
-// type QRecipesResponse = S<{ recipes: Recipe[] }>;
-//
-// export type Action = ({ type: ActionTypeKeys.REQUEST_RECIPES }) |
-// 	({ type: ActionTypeKeys.RECEIVE_RECIPES, payload: Recipe[] } & QRecipesResponse);
+class ReceiveIngredients {
+	readonly type = ActionTypeKeys.RECEIVE_INGREDIENTS;
+	constructor(public payload: Ingredient[]) {}
+}
+
+export type Action = RequestRecipes | ReceiveRecipes | RequestIngredients | ReceiveIngredients;
 
 export function fetchRecipes(): (dispatch: Dispatch<StoreState>) => Promise<{}> {
 	return async (dispatch: Dispatch<StoreState>) => {
@@ -39,5 +41,15 @@ export function fetchRecipes(): (dispatch: Dispatch<StoreState>) => Promise<{}> 
 		return fetch('http://localhost:8450/recipe')
 			.then(response => response.json())
 			.then(json => dispatch(new ReceiveRecipes(json)));
+	};
+}
+
+export function fetchIngredients(): (dispatch: Dispatch<StoreState>) => Promise<{}> {
+	return async (dispatch: Dispatch<StoreState>) => {
+		dispatch(new RequestIngredients());
+		// return zipkinFetch('http://localhost:8700/recipe')
+		return fetch('http://localhost:8440/ingredients')
+			.then(response => response.json())
+			.then(json => dispatch(new ReceiveIngredients(json)));
 	};
 }

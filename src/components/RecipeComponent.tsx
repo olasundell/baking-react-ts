@@ -2,6 +2,7 @@ import { Recipe } from '../models/Recipe';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { StoreState } from '../reducers';
+import { SingleRecipeComponent } from './SingleRecipeComponent';
 
 export interface RecipeComponentProps {
 	recipes: Recipe[];
@@ -24,12 +25,9 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 		}
 
 		return (
-			<div>Choose recipe:&nbsp;
-				<select>
-					{recipes.map((r) => <option key={r.id}>{r.name}</option>)}
-				</select>
-				<button type="button" onClick={this.handleSubmit}>Bake!</button>
-			</div>
+			<ul className="list-group">
+				{recipes.map((recipe) => <li key={recipe.id}><SingleRecipeComponent recipe={recipe}/></li>)}
+			</ul>
 		);
 	}
 

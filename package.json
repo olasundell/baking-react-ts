@@ -3,28 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "4.0.0-beta.2",
+    "classnames": "^2.2.5",
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.2",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
     "react-redux-typescript": "^3.0.0-beta1",
     "react-scripts-ts": "2.8.0",
+    "react-table": "^6.7.4",
+    "react-transition-group": "^2.2.1",
+    "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
+    "build-css": "node-sass-chokidar --include-path ./src/styles --include-path ./node_modules src/styles/ -o src/styles/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src/styles --include-path ./node_modules src/styles/ -o src/styles --watch --recursive",
+    "start-js": "react-scripts-ts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.7",
     "@types/node": "^8.0.53",
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.13",
+    "@types/react-table": "^6.7.0",
+    "@types/reactstrap": "^5.0.3",
     "@types/redux-logger": "^3.0.5"
   }
 }

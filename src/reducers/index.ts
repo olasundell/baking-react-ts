@@ -1,36 +1,10 @@
 import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import thunk from 'redux-thunk';
-import { Action, ActionTypeKeys } from '../actions/actions';
-import { RecipeComponentProps } from '../components/RecipeComponent';
 import { createLogger } from 'redux-logger';
+import { recipeReducer, RecipeReducer } from './recipes';
+import { ingredientReducer, IngredientReducer } from './ingredients';
 
-export interface StoreState extends RecipeReducer {}
-
-interface RecipeReducer {
-	recipes: RecipeComponentProps;
-}
-
-const initialRecipeState: RecipeComponentProps = {
-	recipes: [],
-	isLoading: false
-};
-
-function recipeReducer(state: RecipeComponentProps = initialRecipeState, action: Action): RecipeComponentProps {
-	switch (action.type) {
-		case ActionTypeKeys.REQUEST_RECIPES:
-			return Object.assign({}, state, {
-				isLoading: true,
-				recipes: [],
-			});
-		case ActionTypeKeys.RECEIVE_RECIPES:
-			return Object.assign({}, state, {
-				isLoading: false,
-				recipes: action.payload
-			});
-		default:
-			return state;
-	}
-}
+export interface StoreState extends RecipeReducer, IngredientReducer {}
 
 // used to convert actions to plain objects, needed because we use classes as actions. Somehow.
 const actionToPlainObject: Middleware = store => next => {
@@ -44,7 +18,8 @@ const actionToPlainObject: Middleware = store => next => {
 };
 
 const rootReducer = combineReducers<StoreState>({
-	recipes: recipeReducer
+	recipes: recipeReducer,
+	ingredients: ingredientReducer
 });
 
 export function configureStore() {
