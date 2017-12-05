@@ -7,6 +7,8 @@ import { SingleRecipeComponent } from './SingleRecipeComponent';
 export interface RecipeComponentProps {
 	recipes: Recipe[];
 	isLoading: boolean;
+	hasError: boolean;
+	errorMessage: string;
 }
 
 interface RecipeComponentParams extends RecipeComponentProps {}
@@ -18,7 +20,11 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 	}
 
 	render() {
-		const { isLoading, recipes } = this.props;
+		const { hasError, errorMessage, isLoading, recipes } = this.props;
+
+		if (hasError) {
+			return <h2>{errorMessage}</h2>;
+		}
 
 		if (isLoading) {
 			return (<h2>Loading</h2>);
@@ -40,8 +46,7 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 function mapStateToProps(state: StoreState): RecipeComponentProps {
 	// console.log(JSON.stringify(state));
 	return {
-		recipes: state.recipes.recipes,
-		isLoading: state.recipes.isLoading,
+		...state.recipes
 	};
 }
 

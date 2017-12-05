@@ -12,7 +12,6 @@
     "react-redux": "^5.0.6",
     "react-redux-typescript": "^3.0.0-beta1",
     "react-scripts-ts": "2.8.0",
-    "react-table": "^6.7.4",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",

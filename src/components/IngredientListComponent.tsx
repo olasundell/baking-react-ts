@@ -2,40 +2,61 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { StoreState } from '../reducers';
 import { Ingredient } from '../models/Ingredient';
-import ReactTable from 'react-table';
+import Table from 'reactstrap/lib/Table';
 
 export interface IngredientListComponentProps {
 	isLoading: boolean;
 	ingredients: Ingredient[];
+	hasError: boolean;
+	errorMessage: string;
 }
 
 class IngredientListComponent extends React.Component<IngredientListComponentProps, object> {
+	static row(ingredient: Ingredient, row: number): JSX.Element {
+		return (
+			<tr>
+				<th scope="row">{ingredient.id}</th>
+				<td>{ingredient.name}</td>
+				<td>{ingredient.amount}</td>
+				<td>{ingredient.unit}</td>
+			</tr>
+		);
+	}
+
 	render() {
-		const { isLoading, ingredients } = this.props;
+		const { hasError, errorMessage, isLoading, ingredients } = this.props;
+
+		if (hasError) {
+			return <h2>{errorMessage}</h2>;
+		}
 
 		if (isLoading) {
 			return (<h2>Loading</h2>);
 		}
 
-		const columns = {
-			
-		};
-
-		return   <ReactTable
-			data={ingredients}
-			columns={columns}
-		/>;
-		// return <ul className="list-group">
-		// 	{ingredients.map((ing, i) => <li key={i}>{ing.name} {ing.amount} {ing.unit}</li>)}
-		// </ul>;
+		return (
+			<Table striped={true}>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Amount</th>
+						<th>Unit</th>
+					</tr>
+				</thead>
+				<tbody>
+					{ingredients.map((ingredient, i) => IngredientListComponent.row(ingredient, i))}
+				</tbody>
+			</Table>
+		);
 	}
+
 }
 
 function mapStateToProps(state: StoreState): IngredientListComponentProps {
 	// console.log(JSON.stringify(state));
 	return {
-		ingredients: state.ingredients.ingredients,
-		isLoading: state.ingredients.isLoading,
+		...state.ingredients
 	};
 }
 

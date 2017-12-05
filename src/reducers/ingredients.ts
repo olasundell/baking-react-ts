@@ -7,7 +7,9 @@ export interface IngredientReducer {
 
 const initialIngredientState: IngredientListComponentProps = {
 	ingredients: [],
-	isLoading: false
+	isLoading: false,
+	hasError: false,
+	errorMessage: ''
 };
 
 export function ingredientReducer(state: IngredientListComponentProps = initialIngredientState,
@@ -24,6 +26,12 @@ export function ingredientReducer(state: IngredientListComponentProps = initialI
 				...state,
 				isLoading: false,
 				ingredients: action.payload
+			};
+		case ActionTypeKeys.INGREDIENTS_ERROR:
+			return {
+				...state,
+				hasError: true,
+				errorMessage: action.payload,
 			};
 		default:
 			return state;
