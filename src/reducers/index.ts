@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore, Middleware} from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { recipeReducer, RecipeReducer } from './recipes';
@@ -22,6 +22,10 @@ const rootReducer = combineReducers<StoreState>({
 	ingredients: ingredientReducer
 });
 
+const composeEnhancers = (<any> window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const store: StoreState = createStore(rootReducer, /* preloadedState, */ composeEnhancers();
+const enhancer = composeEnhancers(applyMiddleware(thunk, actionToPlainObject, createLogger()));
+
 export function configureStore() {
-	return createStore<StoreState>(rootReducer, applyMiddleware(thunk, actionToPlainObject, createLogger()));
+	return createStore<StoreState>(rootReducer, enhancer);
 }

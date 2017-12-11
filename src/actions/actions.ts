@@ -27,7 +27,7 @@ class ReceiveRecipes {
 
 class RecipesError {
 	readonly type = ActionTypeKeys.RECIPES_ERROR;
-	constructor(public payload: string) {}
+	constructor(public payload: Error) {}
 }
 
 class RequestIngredients {
@@ -54,7 +54,7 @@ export function fetchRecipes(): (dispatch: Dispatch<StoreState>) => Promise<{}> 
 		return fetch('http://localhost:8450/recipe')
 			.then(response => response.json())
 			.then(json => dispatch(new ReceiveRecipes(json)))
-			.catch((e: Error) => dispatch(new RecipesError(e.message)));
+			.catch((e: Error) => dispatch(new RecipesError(e)));
 	};
 }
 

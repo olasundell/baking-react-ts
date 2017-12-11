@@ -8,7 +8,7 @@ export interface RecipeComponentProps {
 	recipes: Recipe[];
 	isLoading: boolean;
 	hasError: boolean;
-	errorMessage: string;
+	error?: Error;
 }
 
 interface RecipeComponentParams extends RecipeComponentProps {}
@@ -20,14 +20,18 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 	}
 
 	render() {
-		const { hasError, errorMessage, isLoading, recipes } = this.props;
+		const { hasError, error, isLoading, recipes } = this.props;
 
-		if (hasError) {
-			return <h2>{errorMessage}</h2>;
+		if (hasError && error) {
+			return <h2>Error: {error.message}</h2>;
 		}
 
 		if (isLoading) {
 			return (<h2>Loading</h2>);
+		}
+
+		if (recipes.length === 0) {
+			return <h2>Empty</h2>;
 		}
 
 		return (

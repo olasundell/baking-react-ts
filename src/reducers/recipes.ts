@@ -8,8 +8,8 @@ export interface RecipeReducer {
 const initialRecipeState: RecipeComponentProps = {
 	recipes: [],
 	isLoading: false,
-	hasError: true,
-	errorMessage: ''
+	hasError: false,
+	error: undefined
 };
 
 export function recipeReducer(state: RecipeComponentProps = initialRecipeState, action: Action): RecipeComponentProps {
@@ -28,7 +28,7 @@ export function recipeReducer(state: RecipeComponentProps = initialRecipeState, 
 			return {
 				...state,
 				hasError: true,
-				errorMessage: action.payload
+				error: action.payload
 			};
 		default:
 			return state;

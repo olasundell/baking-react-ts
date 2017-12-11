@@ -11,11 +11,12 @@ import NavLink from 'reactstrap/lib/NavLink';
 import NavItem from 'reactstrap/lib/NavItem';
 import Nav from 'reactstrap/lib/Nav';
 import * as classNames from 'classnames';
-import IngredientListComponent from './components/IngredientListComponent';
+import AllIngredientsListComponent from './components/IngredientListComponent';
+import { Ingredient } from './models/Ingredient';
 
 interface AppProps {
 	fetchRecipes(): (dispatch: Dispatch<StoreState>) => Promise<Recipe[]>;
-	fetchIngredients(): (dispatch: Dispatch<StoreState>) => Promise<Recipe[]>;
+	fetchIngredients(): (dispatch: Dispatch<StoreState>) => Promise<Ingredient[]>;
 }
 
 interface AppState {
@@ -71,7 +72,7 @@ class App extends React.Component<AppProps, AppState> {
 							{'1' === this.state.activeTab && <RecipeComponent/>}
 						</TabPane>
 						<TabPane tabId="2">
-							{'2' === this.state.activeTab && <IngredientListComponent />}
+							{'2' === this.state.activeTab && <AllIngredientsListComponent />}
 						</TabPane>
 					</TabContent>
 				</div>

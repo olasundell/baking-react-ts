@@ -1,5 +1,7 @@
+import { RecipeIngredient } from './RecipeIngredient';
+
 export interface Recipe {
-	ingredients: Map<string, number>;
+	ingredients: { [name: string]: RecipeIngredient };
 	name: string;
 	id: number;
 }

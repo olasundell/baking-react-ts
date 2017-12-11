@@ -11,16 +11,19 @@ export interface IngredientListComponentProps {
 	errorMessage: string;
 }
 
-class IngredientListComponent extends React.Component<IngredientListComponentProps, object> {
+export class IngredientListComponent extends React.Component<IngredientListComponentProps, object> {
 	static row(ingredient: Ingredient, row: number): JSX.Element {
 		return (
 			<tr>
-				<th scope="row">{ingredient.id}</th>
 				<td>{ingredient.name}</td>
 				<td>{ingredient.amount}</td>
 				<td>{ingredient.unit}</td>
 			</tr>
 		);
+	}
+
+	constructor(props: IngredientListComponentProps) {
+		super(props);
 	}
 
 	render() {
@@ -38,7 +41,6 @@ class IngredientListComponent extends React.Component<IngredientListComponentPro
 			<Table striped={true}>
 				<thead>
 					<tr>
-						<th>#</th>
 						<th>Name</th>
 						<th>Amount</th>
 						<th>Unit</th>
