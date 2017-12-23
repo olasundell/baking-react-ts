@@ -1,8 +1,11 @@
 import { Recipe } from '../models/Recipe';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { StoreState } from '../reducers';
 import { SingleRecipeComponent } from './SingleRecipeComponent';
+import { bindActionCreators } from 'redux';
+import { bakeRecipe, bakeRecipe as bakeRecipeAction, BakeRecipeResult, RecipesError } from '../actions/recipeActions';
+import Button from 'reactstrap/lib/Button';
 
 export interface RecipeComponentProps {
 	recipes: Recipe[];
@@ -11,7 +14,11 @@ export interface RecipeComponentProps {
 	error?: Error;
 }
 
-interface RecipeComponentParams extends RecipeComponentProps {}
+export interface RecipeComponentActions {
+	bakeRecipe(recipe: Recipe): (dispatch: Dispatch<StoreState>) => Promise<BakeRecipeResult | RecipesError>;
+}
+
+interface RecipeComponentParams extends RecipeComponentProps, RecipeComponentActions {}
 
 class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 	constructor(props: RecipeComponentParams) {
@@ -36,7 +43,10 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 
 		return (
 			<ul className="list-group">
-				{recipes.map((recipe) => <li key={recipe.id}><SingleRecipeComponent recipe={recipe}/></li>)}
+				{recipes.map((recipe) => <li key={recipe.id}>
+					<Button onClick={(e) => this.props.bakeRecipe(recipe)}>Bake</Button>
+					<SingleRecipeComponent bakeRecipe={bakeRecipe} recipe={recipe}/>
+				</li>)}
 			</ul>
 		);
 	}
@@ -54,4 +64,10 @@ function mapStateToProps(state: StoreState): RecipeComponentProps {
 	};
 }
 
-export default connect(mapStateToProps)(RecipeComponent);
+function mapDispatchToProps(dispatch: Dispatch<StoreState>): RecipeComponentActions {
+	return {
+		bakeRecipe: bindActionCreators(bakeRecipeAction, dispatch),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeComponent);

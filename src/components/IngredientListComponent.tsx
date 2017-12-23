@@ -14,7 +14,7 @@ export interface IngredientListComponentProps {
 export class IngredientListComponent extends React.Component<IngredientListComponentProps, object> {
 	static row(ingredient: Ingredient, row: number): JSX.Element {
 		return (
-			<tr>
+			<tr key={row}>
 				<td>{ingredient.name}</td>
 				<td>{ingredient.amount}</td>
 				<td>{ingredient.unit}</td>

@@ -4,7 +4,8 @@ import { Recipe } from './models/Recipe';
 import { StoreState } from './reducers';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchRecipes as fetchRecipesAction, fetchIngredients as fetchIngredientsAction } from './actions/actions';
+import { fetchRecipes as fetchRecipesAction } from './actions/recipeActions';
+import { fetchIngredients as fetchIngredientsAction } from './actions/ingredientsActions';
 import { TabContent } from 'reactstrap';
 import TabPane from 'reactstrap/lib/TabPane';
 import NavLink from 'reactstrap/lib/NavLink';
@@ -49,7 +50,7 @@ class App extends React.Component<AppProps, AppState> {
 	render() {
 		return (
 				<div>
-					<Nav tabs>
+					<Nav tabs={true}>
 						<NavItem>
 							<NavLink
 								className={classNames({ active: this.state.activeTab === '1' })}

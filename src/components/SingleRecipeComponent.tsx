@@ -2,9 +2,14 @@ import * as React from 'react';
 import { Recipe } from '../models/Recipe';
 import { IngredientListComponent, IngredientListComponentProps } from './IngredientListComponent';
 import { Ingredient } from '../models/Ingredient';
+import Button from 'reactstrap/lib/Button';
+import { Dispatch } from 'react-redux';
+import { StoreState } from '../reducers';
+import { BakeRecipeResult, RecipesError } from '../actions/recipeActions';
 
 export interface SingleRecipeComponentProps {
 	recipe: Recipe;
+	bakeRecipe(recipe: Recipe): (dispatch: Dispatch<StoreState>) => Promise<BakeRecipeResult | RecipesError>;
 }
 
 interface SingleRecipeComponentState {
@@ -23,6 +28,11 @@ export class SingleRecipeComponent extends React.Component<SingleRecipeComponent
 	handleClick() {
 		this.setState({open: !this.state.open});
 	}
+
+	bake(recipe: Recipe) {
+		this.props.bakeRecipe(recipe);
+	}
+
 	render() {
 		const { recipe } = this.props;
 		const { open } = this.state;
@@ -42,12 +52,12 @@ export class SingleRecipeComponent extends React.Component<SingleRecipeComponent
 			};
 
 			return (
-				<div onClick={(e) => this.handleClick()}>
-					{recipe.name}:
-					<IngredientListComponent {...listState} />
-					{/*<ul className={'list-group'}>*/}
-					{/*{keys.map((ingrName, i) => <li key={i}>{ingrName} {recipe.ingredients[ingrName].amount} {recipe.ingredients[ingrName].type}</li>)}*/}
-					{/*</ul>*/}
+				<div>
+					<div onClick={(e) => this.handleClick()}>
+						{recipe.name}:
+						<IngredientListComponent {...listState} />
+					</div>
+					<Button onClick={(e) => this.bake(recipe)}>Shake and Bake</Button>
 				</div>
 			);
 		}

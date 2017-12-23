@@ -1,9 +1,9 @@
-import { Recipe } from '../models/Recipe';
-import { StoreState } from '../reducers';
-import { Dispatch } from 'redux';
-import { Ingredient } from '../models/Ingredient';
+import { RecipeActions } from './recipeActions';
+import { IngredientsActions } from './ingredientsActions';
 
 export enum ActionTypeKeys {
+	BAKE_RECIPE_RESULT = 'BAKE_RECIPE_RESULT',
+	BAKE_RECIPE_REQUEST = 'BAKE_RECIPE_REQUEST',
 	REQUEST_RECIPES = 'REQUEST_RECIPES',
 	RECIPES_ERROR = 'RECIPES_ERROR',
 	RECEIVE_RECIPES = 'RECEIVE_RECIPES',
@@ -15,60 +15,7 @@ export enum ActionTypeKeys {
 	ADD_INGREDIENT = 'ADD_INGREDIENT',
 
 }
-
-class RequestRecipes {
-	readonly type = ActionTypeKeys.REQUEST_RECIPES;
-}
-
-class ReceiveRecipes {
-	readonly type = ActionTypeKeys.RECEIVE_RECIPES;
-	constructor(public payload: Recipe[]) {}
-}
-
-class RecipesError {
-	readonly type = ActionTypeKeys.RECIPES_ERROR;
-	constructor(public payload: Error) {}
-}
-
-class RequestIngredients {
-	readonly type = ActionTypeKeys.REQUEST_INGREDIENTS;
-}
-
-class ReceiveIngredients {
-	readonly type = ActionTypeKeys.RECEIVE_INGREDIENTS;
-	constructor(public payload: Ingredient[]) {}
-}
-
-class IngredientsError {
-	readonly type = ActionTypeKeys.INGREDIENTS_ERROR;
-	constructor(public payload: string) {}
-}
-
-export type Action = RequestRecipes | ReceiveRecipes | RecipesError |
-	RequestIngredients | ReceiveIngredients | IngredientsError;
-
-export function fetchRecipes(): (dispatch: Dispatch<StoreState>) => Promise<{}> {
-	return async (dispatch: Dispatch<StoreState>) => {
-		dispatch(new RequestRecipes());
-		// return zipkinFetch('http://localhost:8700/recipe')
-		return fetch('http://localhost:8450/recipe')
-			.then(response => response.json())
-			.then(json => dispatch(new ReceiveRecipes(json)))
-			.catch((e: Error) => dispatch(new RecipesError(e)));
-	};
-}
-
-export function fetchIngredients(): (dispatch: Dispatch<StoreState>) => Promise<{}> {
-	return async (dispatch: Dispatch<StoreState>) => {
-		dispatch(new RequestIngredients());
-		// return zipkinFetch('http://localhost:8700/recipe')
-		return fetch('http://localhost:8440/ingredients')
-			.then((response) => response.json())
-			.then((json) => dispatch(new ReceiveIngredients(json)))
-			.catch((e: Error) => dispatch(new IngredientsError(e.message)));
-	};
-}
-
+export type Action = IngredientsActions | RecipeActions;
 // const responseOrError = (response: Response, dispatch: Dispatch<StoreState>): Promise<{}> => {
 // 	if (response.ok) {
 // 		return response.json().then((json) => dispatch(new ReceiveIngredients(json)));

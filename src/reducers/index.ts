@@ -1,10 +1,11 @@
-import {applyMiddleware, combineReducers, compose, createStore, Middleware} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Middleware } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { recipeReducer, RecipeReducer } from './recipes';
 import { ingredientReducer, IngredientReducer } from './ingredients';
+import { BakingReducer, bakingReducer } from './baking';
 
-export interface StoreState extends RecipeReducer, IngredientReducer {}
+export interface StoreState extends RecipeReducer, IngredientReducer, BakingReducer {}
 
 // used to convert actions to plain objects, needed because we use classes as actions. Somehow.
 const actionToPlainObject: Middleware = store => next => {
@@ -19,7 +20,8 @@ const actionToPlainObject: Middleware = store => next => {
 
 const rootReducer = combineReducers<StoreState>({
 	recipes: recipeReducer,
-	ingredients: ingredientReducer
+	ingredients: ingredientReducer,
+	baking: bakingReducer
 });
 
 const composeEnhancers = (<any> window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
