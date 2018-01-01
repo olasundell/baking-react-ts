@@ -12,16 +12,6 @@ export interface IngredientListComponentProps {
 }
 
 export class IngredientListComponent extends React.Component<IngredientListComponentProps, object> {
-	static row(ingredient: Ingredient, row: number): JSX.Element {
-		return (
-			<tr key={row}>
-				<td>{ingredient.name}</td>
-				<td>{ingredient.amount}</td>
-				<td>{ingredient.unit}</td>
-			</tr>
-		);
-	}
-
 	constructor(props: IngredientListComponentProps) {
 		super(props);
 	}
@@ -47,12 +37,25 @@ export class IngredientListComponent extends React.Component<IngredientListCompo
 					</tr>
 				</thead>
 				<tbody>
-					{ingredients.map((ingredient, i) => IngredientListComponent.row(ingredient, i))}
+					{ingredients.map((ingredient, i) => this.row(ingredient, i))}
 				</tbody>
 			</Table>
 		);
 	}
 
+	row(ingredient: Ingredient, row: number): JSX.Element {
+		return (
+			<tr key={row} onClick={(e) => this.rowClicked(e)}>
+				<td>{ingredient.name}</td>
+				<td>{ingredient.amount}</td>
+				<td>{ingredient.unit}</td>
+			</tr>
+		);
+	}
+
+	rowClicked(e: any) {
+		console.log(e.type);
+	}
 }
 
 function mapStateToProps(state: StoreState): IngredientListComponentProps {

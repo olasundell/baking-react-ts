@@ -2,6 +2,7 @@ import { RecipeActions } from './recipeActions';
 import { IngredientsActions } from './ingredientsActions';
 
 export enum ActionTypeKeys {
+	SAVE_INGREDIENTS_RESULT = 'SAVE_INGREDIENTS_RESULT',
 	BAKE_RECIPE_RESULT = 'BAKE_RECIPE_RESULT',
 	BAKE_RECIPE_REQUEST = 'BAKE_RECIPE_REQUEST',
 	REQUEST_RECIPES = 'REQUEST_RECIPES',
@@ -13,14 +14,8 @@ export enum ActionTypeKeys {
 	INGREDIENTS_ERROR = 'INGREDIENTS_ERROR',
 	RECEIVE_INGREDIENTS = 'RECEIVE_INGREDIENTS',
 	ADD_INGREDIENT = 'ADD_INGREDIENT',
+	PUT_SAVE_INGREDIENTS = 'PUT_SAVE_INGREDIENTS',
 
 }
+
 export type Action = IngredientsActions | RecipeActions;
-// const responseOrError = (response: Response, dispatch: Dispatch<StoreState>): Promise<{}> => {
-// 	if (response.ok) {
-// 		return response.json().then((json) => dispatch(new ReceiveIngredients(json)));
-// 	} else {
-// 		dispatch(new IngredientsError(response.statusText));
-// 		return Promise.resolve({});
-// 	}
-// }

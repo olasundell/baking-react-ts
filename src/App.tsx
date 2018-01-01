@@ -12,7 +12,8 @@ import NavLink from 'reactstrap/lib/NavLink';
 import NavItem from 'reactstrap/lib/NavItem';
 import Nav from 'reactstrap/lib/Nav';
 import * as classNames from 'classnames';
-import AllIngredientsListComponent from './components/IngredientListComponent';
+// import AllIngredientsListComponent from './components/IngredientListComponent';
+import AllIngredientsListComponent from './components/IngListCom2';
 import { Ingredient } from './models/Ingredient';
 
 interface AppProps {
