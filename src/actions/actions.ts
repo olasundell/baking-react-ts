@@ -1,7 +1,12 @@
 import { RecipeActions } from './recipeActions';
 import { IngredientsActions } from './ingredientsActions';
+import { BakedGoodsActions } from './bakedGoodsActions';
 
 export enum ActionTypeKeys {
+	BAKED_GOODS_ERROR = 'BAKED_GOODS_ERROR',
+	RECEIVE_BAKED_GOODS = 'RECEIVE_BAKED_GOODS',
+	REQUEST_BAKED_GOODS = 'REQUEST_BAKED_GOODS',
+
 	SAVE_INGREDIENTS_RESULT = 'SAVE_INGREDIENTS_RESULT',
 	BAKE_RECIPE_RESULT = 'BAKE_RECIPE_RESULT',
 	BAKE_RECIPE_REQUEST = 'BAKE_RECIPE_REQUEST',
@@ -15,7 +20,6 @@ export enum ActionTypeKeys {
 	RECEIVE_INGREDIENTS = 'RECEIVE_INGREDIENTS',
 	ADD_INGREDIENT = 'ADD_INGREDIENT',
 	PUT_SAVE_INGREDIENTS = 'PUT_SAVE_INGREDIENTS',
-
 }
 
-export type Action = IngredientsActions | RecipeActions;
+export type Action = IngredientsActions | RecipeActions | BakedGoodsActions;

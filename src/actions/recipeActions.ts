@@ -3,6 +3,7 @@ import { Recipe } from '../models/Recipe';
 import { Dispatch } from 'react-redux';
 import { StoreState } from '../reducers';
 import { BakingResult } from '../models/BakingResult';
+import { fetchBakedGoods } from './bakedGoodsActions';
 
 export type RecipeActions = RequestRecipes | ReceiveRecipes | RecipesError | BakeRecipeResult | BakeRecipeRequest;
 
@@ -53,7 +54,10 @@ export function bakeRecipe(recipe: Recipe): (dispatch: Dispatch<StoreState>)
 			method: 'POST'
 		})
 			.then(response => response.json())
-			.then(json => dispatch(new BakeRecipeResult(json)))
+			.then(json => {
+				dispatch(fetchBakedGoods());
+				return dispatch(new BakeRecipeResult(json));
+			})
 			.catch((e: Error) => dispatch(new RecipesError(e)));
 	};
 }

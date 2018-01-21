@@ -34,7 +34,7 @@ export function fetchIngredients(): (dispatch: Dispatch<StoreState>) => Promise<
 	return async (dispatch: Dispatch<StoreState>) => {
 		dispatch(new RequestIngredients());
 
-		return fetch('http://127.0.0.1:8440/ingredients')
+		return fetch('http://localhost:8440/ingredients')
 			.then((response) => response.json())
 			.then((json) => dispatch(new ReceiveIngredients(json)))
 			.catch((e: Error) => dispatch(new IngredientsError(e.message)));
@@ -48,7 +48,7 @@ export function saveIngredients(ingredients: Ingredient[]):
 
 		console.log(JSON.stringify(ingredients));
 
-		return fetch('http://127.0.0.1:8440/ing2', {
+		return fetch('http://localhost:8440/ing2', {
 			method: 'PUT',
 			body: JSON.stringify(ingredients),
 			credentials: 'same-origin',

@@ -1,12 +1,14 @@
 import { Ingredient } from '../models/Ingredient';
-import { StoreState } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
-import * as React from 'react';
-import ReactTable from 'react-table';
-import { bindActionCreators } from 'redux';
+import { StoreState } from '../reducers';
 import { IngredientsError, SaveIngredientsResult } from '../actions/ingredientsActions';
 import { saveIngredients as saveIngredientsAction } from '../actions/ingredientsActions';
+import { bindActionCreators } from 'redux';
+import * as React from 'react';
+import * as ReactDataGrid from 'react-data-grid';
 import Button from 'reactstrap/lib/Button';
+// import * as ReactDataGridAddons from 'react-data-grid-addons';
+// import { Editors } from 'react-data-grid-addons';
 
 export interface IngredientListComponentProps {
 	isLoading: boolean;
@@ -29,25 +31,6 @@ interface IngredientListComponentState {
 class IngredientListComponent extends React.Component<IngredientListComponentParams, IngredientListComponentState> {
 	constructor(props: IngredientListComponentParams, state: IngredientListComponentState) {
 		super(props, state);
-		this.renderEditable = this.renderEditable.bind(this);
-	}
-
-	renderEditable(cellInfo: any) {
-		return (
-			<div
-				style={{ backgroundColor: '#fafafa' }}
-				contentEditable={true}
-				suppressContentEditableWarning={true}
-				onBlur={(e: any) => {
-					const data = [...this.state.ingredients];
-					data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-					this.setState({ ingredients: data });
-				}}
-				dangerouslySetInnerHTML={{
-					__html: this.props.ingredients[cellInfo.index][cellInfo.column.id]
-				}}
-			/>
-		);
 	}
 
 	componentDidMount() {
@@ -70,29 +53,41 @@ class IngredientListComponent extends React.Component<IngredientListComponentPar
 			return (<h2>Loading</h2>);
 		}
 
-		// TODO these should be read from the web service instead
+		// TODO read from ws
+		// const units = [
+		// 	{ title: 'GRAMMES' }, { title: 'PIECES' }, { title: 'LITRES' }
+		// ];
+
+		// const { Editors } = ReactDataGridAddons;
+		// const { DropDownEditor } = Plugins.Editors.DropDownEditor;
+
+		// const PrioritiesEditor = <Editors.DropDownEditor options={units} />;
+		// const PrioritiesEditor = <Editors.AutoComplete options={units} />;
+
 		const columns = [{
-			Header: 'Name',
-			accessor: 'name',
-			Cell: this.renderEditable
+			name: 'Name',
+			key: 'name',
+			editable: true,
 		}, {
-			Header: 'Amount',
-			accessor: 'amount',
-			Cell: this.renderEditable
+			name: 'Amount',
+			key: 'amount',
+			editable: true,
 		}, {
-			id: 'unit', // Required because our accessor is not a string
-			Header: 'Unit',
-			accessor: (d: Ingredient) => d.unit, // Custom value accessors!
-			Cell: this.renderEditable
+			name: 'Unit',
+			editable: true,
+			// editor: PrioritiesEditor,
+			key: 'unit'
 		}];
+
+		const rowGetter = (rowNumber: number) => ingredients[rowNumber];
 
 		return (
 			<div>
-				<ReactTable
-					data={ingredients}
+				<ReactDataGrid
 					columns={columns}
-					defaultPageSize={10}
-					className={'-striped -highlight'}
+					rowGetter={rowGetter}
+					rowsCount={ingredients.length}
+					minHeight={500}
 				/>
 				<Button onClick={(e) => this.save()}>Save</Button>
 				<Button onClick={(e) => this.addRow()}>Add row</Button>

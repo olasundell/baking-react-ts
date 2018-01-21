@@ -1,0 +1,30 @@
+[
+	{
+		"name": "recipe one",
+		"ingredients": {
+			"yeast": {
+				"unit": "GRAMMES",
+				"amount": 1
+			},
+			"milk": {
+				"unit": "LITRES",
+				"amount": 2
+			}
+		},
+		"id": 1
+	},
+	{
+		"name": "recipe two",
+		"ingredients": {
+			"yeast": {
+				"unit": "GRAMMES",
+				"amount": 2
+			},
+			"wheat flour": {
+				"unit": "LITRES",
+				"amount": 3
+			}
+		},
+		"id": 2
+	}
+]

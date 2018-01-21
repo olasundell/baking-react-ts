@@ -18,9 +18,15 @@ export interface RecipeComponentActions {
 	bakeRecipe(recipe: Recipe): (dispatch: Dispatch<StoreState>) => Promise<BakeRecipeResult | RecipesError>;
 }
 
-interface RecipeComponentParams extends RecipeComponentProps, RecipeComponentActions {}
+export interface RecipeComponentParams extends RecipeComponentProps, RecipeComponentActions {}
 
-class RecipeComponent extends React.Component<RecipeComponentParams, object> {
+export enum StatusText {
+	ERROR = 'Error: ',
+	LOADING = 'Loading',
+	EMPTY = 'Empty'
+}
+
+export class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 	constructor(props: RecipeComponentParams) {
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,15 +36,15 @@ class RecipeComponent extends React.Component<RecipeComponentParams, object> {
 		const { hasError, error, isLoading, recipes } = this.props;
 
 		if (hasError && error) {
-			return <h2>Error: {error.message}</h2>;
+			return <h2>{StatusText.ERROR + error.message}</h2>;
 		}
 
 		if (isLoading) {
-			return (<h2>Loading</h2>);
+			return (<h2>{StatusText.LOADING}</h2>);
 		}
 
 		if (recipes.length === 0) {
-			return <h2>Empty</h2>;
+			return <h2>{StatusText.EMPTY}</h2>;
 		}
 
 		return (

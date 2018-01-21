@@ -45,7 +45,7 @@ export class SingleRecipeComponent extends React.Component<SingleRecipeComponent
 				hasError: false,
 				ingredients: keys.map((key, i) => Object.assign(new Ingredient(), {
 					amount: recipe.ingredients[key].amount,
-					unit: recipe.ingredients[key].type,
+					unit: recipe.ingredients[key].unit,
 					name: key,
 					id: i
 				}))
